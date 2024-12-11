@@ -16,6 +16,8 @@ class CreateUserView(generics.CreateAPIView):
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
 
+
+#load the date from reco/models/
 movies = None
 similarity = None
 
@@ -30,6 +32,8 @@ def load_data():
         print(f"An error occurred: {e}")
 
 load_data()
+
+#get the recommendation from the files
 
 def recommend(movie_title):
     try:
@@ -52,7 +56,8 @@ def recommend(movie_title):
     except IndexError:
         return []  
 
-@api_view(['GET'])
+#this function is called initailly and call recommend for 8 id and titles
+
 @permission_classes([AllowAny])
 def get_recommendations(request):
     movie_title = request.GET.get('movie')
@@ -67,6 +72,8 @@ def get_recommendations(request):
             movie_details.append(details_response.data)  
             
     return JsonResponse({'recommendations': movie_details})
+
+#movie_id is sent to this for details 
 
 def fetch_movie_details(movie_id):
     tmdb_url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={settings.TMDB_API_KEY}"
@@ -86,9 +93,31 @@ def fetch_movie_details(movie_id):
         return Response({'error': str(e)}, status=500)
 
 
-
+#fetch details for click
 @api_view(['GET'])
 @permission_classes([AllowAny])
+def movie_details(request,movie_id):
+    tmdb_url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={settings.TMDB_API_KEY}"
+
+    headers = {
+        'Authorization': f'Bearer {settings.TMDB_READ_ACCESS_TOKEN}'
+    }
+    
+    try:
+        response = requests.get(tmdb_url, headers=headers)
+        
+        if response.status_code == 200:
+            return Response(response.json())  
+        else:
+            return Response({'error': 'Failed to fetch data from TMDB'}, status=response.status_code)
+    except Exception as e:
+        return Response({'error': str(e)}, status=500)
+
+
+#get trending movies
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def fetch_trending_movies(request):
     tmdb_url = f"https://api.themoviedb.org/3/trending/all/day?api_key={settings.TMDB_API_KEY}"
 
@@ -106,6 +135,8 @@ def fetch_trending_movies(request):
             return Response({'error': 'Failed to fetch data from TMDB'}, status=response.status_code)
     except Exception as e:
         return Response({'error': str(e)}, status=500)
+
+#fetching movies
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -127,8 +158,11 @@ def fetch_tmdb_movies(request):
     except Exception as e:
         return Response({'error': str(e)}, status=500)
 
+
+#for tv-series
+
 @api_view(['GET'])
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 def fetch_tv(request):
     tmdb_url = f"https://api.themoviedb.org/3/tv/popular?api_key={settings.TMDB_API_KEY}"
 

@@ -8,9 +8,9 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Movies from "./pages/Movies";
 import TvSeries from './pages/TvSeries';
 import Trending from './pages/Trending';
-import MovieDetails from './pages/MovieDetails';
 import Recommendation from './pages/Recommendation';
-
+import MovieDetails from './pages/MovieDetails';
+import RecommenDetail from './pages/RecommendDetail';
 function Logout() {
   localStorage.clear()
   return <Navigate to="/login" />
@@ -23,6 +23,7 @@ function RegisterAndLogout() {
 
 function App() {
   return (
+    <div>
     <BrowserRouter>
       <Routes>
       <Route
@@ -42,18 +43,26 @@ function App() {
           }
         />
         <Route
-          path="/trending"
+          path="/recommendDetail/:id"
           element={
             <ProtectedRoute>
-             <Trending/>
+              <RecommenDetail/>
             </ProtectedRoute>
           }
         />
         <Route
-          path="/moviesdetails/:id"
+          path="/moviedetails/:id"
           element={
             <ProtectedRoute>
-             <MovieDetails/>
+              <MovieDetails/>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/trending"
+          element={
+            <ProtectedRoute>
+             <Trending/>
             </ProtectedRoute>
           }
         />
@@ -79,6 +88,7 @@ function App() {
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </BrowserRouter>
+    </div>
   )
 }
 
