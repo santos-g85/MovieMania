@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import "../styles/My.css";
+
 
 function NavBar() {
   return (

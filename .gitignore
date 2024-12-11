@@ -1,1 +1,36 @@
-node_modules
+# Environment variables
+.env
+
+# Dependency directories
+node_modules/
+
+# Python files
+__pycache__/
+*.py[cod]
+
+# SQLite database
+*.sqlite3
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Vite build output (adjust if necessary)
+dist/
+
+# Logs
+*.log
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Other IDE/editor-specific files
+.vscode/
+.idea/
+
+# npm lock file (optional if you use yarn instead)
+package-lock.json
+
+
+
+

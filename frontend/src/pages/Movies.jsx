@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
 
-const img_base_url = "https://image.tmdb.org/t/p/w300"; // Base URL for images
+const img_base_url = "https://image.tmdb.org/t/p/w300"; 
 
 const Trending = () => {
   const [movies, setMovies] = useState([]);
@@ -13,15 +13,15 @@ const Trending = () => {
   useEffect(() => {
     const fetchTrendingMovies = async () => {
       try {
-        const token = localStorage.getItem("token"); // Get the JWT token
+        const token = localStorage.getItem("token"); 
         const response = await api.get("api/movies/", {
           headers: {
-            Authorization: `Bearer ${token}`, // Add Authorization header
+            Authorization: `Bearer ${token}`, 
           },
         });
 
         console.log("Response Data:", response.data);
-        setMovies(response.data.results); // Assuming response contains results array
+        setMovies(response.data.results); 
       } catch (error) {
         console.error("Error fetching movies:", error);
       }
